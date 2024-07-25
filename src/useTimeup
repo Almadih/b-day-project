@@ -1,0 +1,23 @@
+// src/hooks/useTimeUp.js
+import { useEffect, useState } from 'react';
+
+const useTimeUp = (targetDate) => {
+  const calculateTimeLeft = () => {
+    const difference = +new Date(targetDate) - +new Date();
+    return difference <= 0;
+  };
+
+  const [isTimeUp, setIsTimeUp] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsTimeUp(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
+  return isTimeUp;
+};
+
+export default useTimeUp;
